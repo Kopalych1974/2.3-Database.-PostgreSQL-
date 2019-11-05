@@ -26,7 +26,7 @@ students = [
 ]
 
 def create_db():  # создает таблицы
-    with ps.connect(user='netology_user', password ='qwerty', host='127.0.0.1', database='netology_db_homework') as conn:
+    with ps.connect(database=netology_db_homework) as conn:
         with conn.cursor() as cur:
             cur.execute("""
                 CREATE TABLE student (
@@ -50,14 +50,14 @@ def create_db():  # создает таблицы
                 """)
 
 def add_course(course): # оздает курсы, на которые записываем студентов
-    with ps.connect(user='netology_user', password ='qwerty', host='127.0.0.1', database='netology_db_homework') as conn:
+    with ps.connect("dbname=netology_db_homework") as conn:
         with conn.cursor() as cur:
             cur.execute("""
                 INSERT INTO course(name) VALUES (%s)
                 """, (course, ))
 
 def add_students(course_id, students):  # создает студентов и записывает их на курс
-    conn = ps.connect(user='netology_user', password ='qwerty', host='127.0.0.1', database='netology_db_homework')
+    conn = ps.connect(database=netology_db_homework)
     cur = conn.cursor()
 
     for i in range(0, len(students)):
@@ -75,7 +75,7 @@ def add_students(course_id, students):  # создает студентов и �
         conn.commit()
 
 def get_students(course_id):  # возвращает студентов определенного курса
-    with ps.connect(user='netology_user', password ='qwerty', host='127.0.0.1', database='netology_db_homework') as conn:
+    with ps.connect(database=netology_db_homework) as conn:
         with conn.cursor() as cur:
             cur.execute("""
                 SELECT s.name, s.gpa, s.birth FROM student s
@@ -87,14 +87,14 @@ def get_students(course_id):  # возвращает студентов опре
             return student
 
 def add_student(student):  # просто создает студента
-    with pg.connect("dbname=netology_db_homework") as conn:
+    with pg.connect(database=netology_db_homework) as conn:
         with conn.cursor() as cur:
             cur.execute("""
                 INSERT INTO student(name, gpa, birth) VALUES (%s, %s, %s)
                 """, (student['name'], student['gpa'], student['birth']))
 
 def get_student(student_id):
-    with pg.connect("dbname=netology_db_homework") as conn:
+    with pg.connect(database=netology_db_homework) as conn:
         with conn.cursor() as cur:
             cur.execute("""
                 SELECT * FROM student WHERE id = %s
