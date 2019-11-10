@@ -87,14 +87,14 @@ def get_students(course_id):  # возвращает студентов опре
             return student
 
 def add_student(student):  # просто создает студента
-    with pg.connect(database='netology_db_homework') as conn:
+    with ps.connect(database='netology_db_homework') as conn:
         with conn.cursor() as cur:
             cur.execute("""
                 INSERT INTO student(name, gpa, birth) VALUES (%s, %s, %s)
                 """, (student['name'], student['gpa'], student['birth']))
 
 def get_student(student_id):
-    with pg.connect(database='netology_db_homework') as conn:
+    with ps.connect(database='netology_db_homework') as conn:
         with conn.cursor() as cur:
             cur.execute("""
                 SELECT * FROM student WHERE id = %s
